@@ -1,0 +1,2 @@
+*Here you can add your own playlists so Sindi can play one for you
+*Make sure you delete all the DELETEME.txt files in each directory here
