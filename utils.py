@@ -6,6 +6,7 @@ from random import randint
 from pygame import mixer
 from pyowm import OWM
 
+
 # Initiate mixer - used in audio functions
 mixer.init()
 
@@ -331,8 +332,8 @@ def give_response(wit_output, u_data):
             return approve_response()
 
 
-def giveInput(user_input):
-    data_path = "users/data/Mshsp.json"
+def giveInput(user_input, facehash):
+    data_path = "users/data/" + facehash + ".json"
     with open(data_path) as json_file:
         data = json.load(json_file)
 
