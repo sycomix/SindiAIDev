@@ -4,12 +4,19 @@ import json
 from datetime import date
 from random import randint
 from pygame import mixer
+from pyowm import OWM
 
 # Initiate mixer - used in audio functions
 mixer.init()
 
+# Wit
+enableWitOutput = True
 access_token = "IYIKWAHYLSFGUGI3CM3SRVF4MBM2GQ7C"
 client = Wit(access_token)
+
+# OpenWeather
+weatherAPI_token = "44edc82d5c54a7d0cd68aec1904e810e"
+mgr = OWM(weatherAPI_token)
 
 
 def convertTuple(tup):
@@ -116,9 +123,12 @@ def recommend_random_music(genres):
 
 def recommend_music(entity_value):
     genre = entity_value
-    response = genre + " music"
     m_path = 'music/' + genre + '/' + get_music_file(genre)
-    play_music(m_path)
+    if path.exists(m_path):
+        play_music(m_path)
+        response = genre + " music"
+    else:
+        response = genre + " music is not possible"
     return response
 
 
@@ -185,6 +195,7 @@ def give_response(wit_output, u_data):
     name = data['Name']
     surname = data['Surname']
     bday = data['Birthday']
+    city = data['Location']
     music = data['Music']
     music_genres = music.split(",")
     movies = data['Movies']
@@ -193,8 +204,9 @@ def give_response(wit_output, u_data):
     beta2 = data['Beta2']
     beta3 = data['Beta3']
 
-    # print("Wit API:")
-    # print(wit_output)
+    if enableWitOutput:
+        print("Wit API:")
+        print(wit_output)
 
     # Getting intents, entities and traits from API response
     # And classifying according to intent name or trait (question, greeting, bye, thanks)
@@ -223,6 +235,7 @@ def give_response(wit_output, u_data):
         entities = wit_output['entities']
         entity_age_of_person = first_entity_value(entities, 'wit$age_of_person:age_of_person')
         entity_music_genre = first_entity_value(entities, "music_genre:music_genre")
+        entity_datetime = first_entity_value(entities, 'wit$datetime:datetime')
         understood = True
     if wit_output['traits']:
         traits = wit_output['traits']
@@ -250,7 +263,7 @@ def give_response(wit_output, u_data):
         elif intent_type == 'surname_related' and trait_question == 'true':
             msg = "Your surname is ", surname + "."
             return convertTuple(msg)
-        elif intent_type == 'sindi_related' and trait_question == 'true':
+        elif intent_type == 'sindi_related':
             return "I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music, videos and jokes."
         elif intent_type == 'thanks_related' or trait_thanks == 'true':
             return "Thank YOU! :)"
@@ -270,6 +283,17 @@ def give_response(wit_output, u_data):
                     return convertTuple(msg)
                 elif age == calAge(bday):
                     return "Yes you are."
+        elif intent_type == 'weather_related':
+            observation = mgr.weather_at_place(city)
+            w = observation.get_weather()
+            state = w.get_status()
+            wind_data = w.get_wind()
+            humidity = w.get_humidity()
+            temp_data = w.get_temperature('celsius')
+            msg = "The weather is looking " + state + " with air temperature " + str(temp_data['temp']) + " degrees Celcius. The wind speed is " + \
+                  str(wind_data['speed']) + " mph" + " and humidity is " + str(humidity) + "%"
+            return convertTuple(msg)
+
         elif intent_type == 'music_related':
             if trait_question == 'true':
                 msg = "You like listening to ", get_music_genres(music_genres), " music genres."
