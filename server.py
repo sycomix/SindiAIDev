@@ -6,6 +6,7 @@ import utils
 # initializing variables
 s = 0
 q = 0
+facehash = ""
 
 app = Flask(__name__)
 
@@ -17,8 +18,9 @@ def date_time():  # getting date and time
 
 def insert_sql(user_input):  # inserting user inputs, bot outputs and time into database
     global s
+    global facehash
     s = s + 1  # ID
-    resp = utils.giveInput(user_input)
+    resp = utils.giveInput(user_input, facehash)
     resp = str(resp)
     try:
         sql = 'INSERT INTO user_bot_chat (id, User_input, Bot_output) VALUES("' + str(
@@ -55,8 +57,21 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/')  # links to the first page - index.html
+def home():
+    return render_template("setup.html")
+
+
+@app.route('/setup', methods=['POST'])
+def setup():
+    global facehash
+    facehash= request.form["facehash"]
+    return render_template("index.html")
+
+
 @app.route('/clear')
 def clearChat():
+    # Clear all table rows
     sql = "TRUNCATE TABLE user_bot_chat;"
     a.execute(sql)
     return render_template("index.html")
@@ -94,7 +109,7 @@ if __name__ == '__main__':
         conn = pymysql.connect(host='localhost', user='root', password='', db='sindi_db')
         a = conn.cursor()
     except Exception as e:
-        print("CONNECTION ERROR")
+        print("QUERY ERROR: Connection")
         print("Exeception occured:{}".format(e))
 
     app.run(host='127.0.0.1', port=int('8000'), debug=True)  # 0.0.0.0.,80
