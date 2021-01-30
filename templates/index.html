@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>SindiAI Chat</title>
+	<title>Dashboard - SindiAI</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/weather.css') }}" type= "text/css" >
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.js'></script>
+	<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/593507/OrbitControls.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
@@ -11,7 +15,10 @@
 <p><br><br></p>
 	<div class="container">
 		<div class="alert alert-primary" role="alert">
-		<!--e fshiva-->
+			{% for string in user_input %}
+				{{string}}
+				<br/>
+			{% endfor %}
 		</div>
 
 	<form action="/process" method="POST">
@@ -24,6 +31,24 @@
 	</form>
 		<a href="/clear" class="btn btn-primary">Clear chat</a>
 	</div>
-
+    <div class="container">
+		<div class="box">
+			<div id="weather_wrapper">
+				<div class="weatherCard">
+					<div class="currentTemp">
+						<span class="temp">{{temp}}&deg;C</span>
+						<span class="location">{{location}}</span>
+					</div>
+					<div class="currentWeather">
+						<span class="conditions"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png"></span>
+						<div class="info">
+							<span class="rain">{{humidity}}%</span>
+							<span class="wind">{{wind}} MPH</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
 </body>
 </html>
