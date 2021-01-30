@@ -7,6 +7,9 @@ from pygame import mixer
 from pyowm import OWM
 
 
+# Initialize variables
+city = ""
+
 # Initiate mixer - used in audio functions
 mixer.init()
 
@@ -189,6 +192,10 @@ def approve_response():
     return responses[index]
 
 
+def giveCity():
+    return city
+
+
 # Giving response
 def give_response(wit_output, u_data):
     # Getting user data
@@ -196,6 +203,7 @@ def give_response(wit_output, u_data):
     name = data['Name']
     surname = data['Surname']
     bday = data['Birthday']
+    global city
     city = data['Location']
     music = data['Music']
     music_genres = music.split(",")
@@ -247,40 +255,40 @@ def give_response(wit_output, u_data):
         trait_question = first_trait_value(traits, 'question')  # Value: true, false
         understood = True
     else:
-        return "Uh..."
+        return "Uh... I didn't get that."
 
     if understood:
         if intent_type == 'creator_related':
-            return "I was created by Juled Zaganjori and Elmer Dema"
-        elif intent_type == 'greeting_related' or trait_greeting == 'true':
-            msg = "Hello there ", name + "!"
+            return "I was created by Juled Zaganjori and Elmer Dema."
+        elif intent_type == 'greeting_related' and trait_greeting == 'true':
+            msg = "Hello there " + name + "!"
             return convertTuple(msg)
-        elif intent_type == 'goodbye_related' or trait_bye == 'true':
-            msg = "Goodbye ", name + "!"
+        elif intent_type == 'goodbye_related' and trait_bye == 'true':
+            msg = "Goodbye "+ name + "!"
             return convertTuple(msg)
         elif intent_type == 'name_related' and trait_question == 'true':
-            msg = "Your name is ", name + "."
+            msg = "Your name is " + name + "."
             return convertTuple(msg)
         elif intent_type == 'surname_related' and trait_question == 'true':
-            msg = "Your surname is ", surname + "."
+            msg = "Your surname is " + surname + "."
             return convertTuple(msg)
         elif intent_type == 'sindi_related':
             return "I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music, videos and jokes."
         elif intent_type == 'thanks_related' or trait_thanks == 'true':
-            return "Thank YOU! :)"
+            return "No problem! :)"
         elif intent_type == 'bday_related':
-            msg = "You were born on ", getBirthday(bday)
+            msg = "You were born on " + str(getBirthday(bday))
             return convertTuple(msg)
         elif intent_type == 'age_related':
             if trait_question == 'true':
-                msg = "You are ", calAge(bday), " years old."
+                msg = "You are " + str(calAge(bday)) + " years old."
                 return convertTuple(msg)
             elif trait_question == 'false':
                 age = entity_age_of_person.split(" ")
                 age = age[0]
                 age = int(age)
                 if age != calAge(bday):
-                    msg = "Don't be silly I know you are ", calAge(bday)
+                    msg = "Don't be silly I know you are " + str(calAge(bday))
                     return convertTuple(msg)
                 elif age == calAge(bday):
                     return "Yes you are."
@@ -294,7 +302,16 @@ def give_response(wit_output, u_data):
             msg = "The weather is looking " + state + " with air temperature " + str(temp_data['temp']) + " degrees Celcius. The wind speed is " + \
                   str(wind_data['speed']) + " mph" + " and humidity is " + str(humidity) + "%"
             return convertTuple(msg)
-
+        elif intent_type == 'expression_related':
+            if trait_sentiment == "positive":
+                msg = ";D"
+                return msg
+            elif trait_sentiment == "negative":
+                msg = ":("
+                return msg
+            elif trait_sentiment == "neutral":
+                msg = ":)"
+                return msg
         elif intent_type == 'music_related':
             if trait_question == 'true':
                 msg = "You like listening to ", get_music_genres(music_genres), " music genres."
