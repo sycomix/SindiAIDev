@@ -2,53 +2,89 @@
 <html>
 <head>
 	<title>Dashboard - SindiAI</title>
+	<link rel="shortcut icon" href="{{ url_for('static',filename='img/1.png') }}" type="image/x-icon" />
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/weather.css') }}" type= "text/css">
+
+	<!-- Chat -->
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/chat.css') }}" type= "text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+	<!--
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="{{ url_for('static',filename='css/weather.css') }}" type= "text/css" >
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.js'></script>
-	<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/593507/OrbitControls.js'></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	-->
 </head>
 <body>
-<p><br><br></p>
-	<div class="container">
-		<div class="alert alert-primary" role="alert">
-			{% for string in user_input %}
-				{{string}}
-				<br/>
-			{% endfor %}
-		</div>
+<div class="box">
+    <div class="chat">
+        <div class="chat-header clearfix">
+            <img src="{{ url_for('static',filename='img/1.png') }}" alt="avatar" width="50px" height="50px" />
+            <div class="chat-about">
+              <div class="chat-with">Chat with Cindy</div>
+              <div class="chat-num-messages">already {{ user_input|length }} messages</div>
+            </div>
+        </div>
+      <div class="chat-history">
+        <ul>
+          {% for i in range(0, user_input|length, 2) %}
+          <li>
+            <div class="message-data align-right">
+              <span class="message-data-name"><i class="fa fa-circle me "></i>You</span>
+              <!-- <span class="message-data-time">10:12 AM, Today</span> -->
+            </div>
+            <div class="message other-message float-right">
+              {{user_input[i]}}
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="message-data ">
+             <!-- <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp; -->
+              <span class="message-data-name" >Sindi</span> <i class="fa fa-circle online"></i>
+            </div>
+            <div class="message my-message ">
+              {{user_input[i+1]}}
+            </div>
+          </li>
+          {% endfor %}
+            <li id="last"></li>
+        </ul>
+      </div>
 
-	<form action="/process" method="POST">
-  		<div class="form-group">
-    		<input type="text" name="user_input" class="form-control" placeholder="Type your message">
-  		<br>
-  		<button type="submit" class="btn btn-primary">Send</button>
-		<br>
-		</div>
-	</form>
-		<a href="/clear" class="btn btn-primary">Clear chat</a>
-	</div>
-    <div class="container">
-		<div class="box">
-			<div id="weather_wrapper">
-				<div class="weatherCard">
-					<div class="currentTemp">
-						<span class="temp">{{temp}}&deg;C</span>
-						<span class="location">{{location}}</span>
-					</div>
-					<div class="currentWeather">
-						<span class="conditions"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png"></span>
-						<div class="info">
-							<span class="rain">{{humidity}}%</span>
-							<span class="wind">{{wind}} MPH</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+      <div class="chat-message clearfix">
+          <form action="/process" method="POST">
+              <input autocomplete="off" class="chatbox" type="text" name="user_input" id="message-to-send" placeholder ="Type your message">
+              <button type="submit" >Send</button>
+          </form>
+          <button><i class="fa fa-microphone fa-lg"></i></button>
+          <div class="cleargix"></div>
+          <a class="button" href="/clear"><i class="fa fa-trash fa-lg"></i></a>
+      </div>
     </div>
+</div>
+<div id="weather_wrapper">
+    <div class="weatherCard">
+        <div class="currentTemp">
+            <span class="temp">{{temp}}&deg;C</span>
+            <span class="location">{{location}}</span>
+        </div>
+        <div class="currentWeather">
+            <span class="conditions"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png"></span>
+            <div class="info">
+                <span class="rain">{{humidity}}%</span>
+                <span class="wind">{{wind}} MPH</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chat -->
+
+<link rel="stylesheet" href="{{ url_for('static',filename='js/chat.js') }}" type= "text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js'></script>
+<!--
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+-->
 </body>
 </html>
