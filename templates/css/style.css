@@ -14,7 +14,7 @@
 }
 .chat .chat-header {
   padding: 20px;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid#0ab4b4;
 }
 .chat .chat-header img {
   float: left;
@@ -38,7 +38,8 @@
 }
 .chat .chat-history {
   padding: 30px 30px 20px;
-  border-bottom: 2px solid white;
+  border-bottom: 3px solid #0ab4b4;
+  border:4px solid #0ab4b4;
   overflow-y: scroll;
   height: 350px;
 }
@@ -68,15 +69,15 @@
   width: 0;
   position: absolute;
   pointer-events: none;
-  border-bottom-color: #86BB71;
+  border-bottom-color:#292929;
   border-width: 10px;
   margin-left: -10px;
 }
 .chat .chat-history .my-message {
-  background: #86BB71;
+  background: #292929;
 }
 .chat .chat-history .other-message {
-  background: #94C2ED;
+  background: #0ab4b4;
 }
 .chat .chat-history .other-message:after {
   border-bottom-color: #94C2ED;
