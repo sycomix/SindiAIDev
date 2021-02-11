@@ -2,12 +2,12 @@
 <html>
 <head>
 	<title>Dashboard - SindiAI</title>
-	<link rel="shortcut icon" href="img/1.png" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/1.png" type="image/x-icon">
 	<link rel="stylesheet" href="css/weather.css" type= "text/css">
 
 	<!-- Chat -->
-  <link rel="stylesheet" href="css/style.css" type= "text/css">
-  <link rel="stylesheet" href="css/scrollbar.css" type= "text/css">
+	<link rel="stylesheet" href="css/chat.css" type= "text/css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
 	<!--
@@ -18,21 +18,23 @@
 <div class="box">
     <div class="chat">
         <div class="chat-header clearfix">
-            <img src="img/1.png" alt="avatar" width="50px" height="50px" />
+            <img src="{{ url_for('static',filename='img/1.png') }}" alt="avatar" width="50px" height="50px" />
             <div class="chat-about">
-              <div class="chat-with">Chat with Cindy</div>
-              <div class="chat-num-messages">already 2 messages</div>
+              <div class="chat-with">Chat with Sindi</div>
+              <div class="chat-num-messages">already {{ user_input|length }} messages</div>
             </div>
         </div>
-      <div class="chat-history">
+      <div class="chat-history" id="chat">
         <ul>
+          {% for i in range(0, user_input|length, 2) %}
+          <br>
           <li>
             <div class="message-data align-right">
               <span class="message-data-name"><i class="fa fa-circle me "></i>You</span>
               <!-- <span class="message-data-time">10:12 AM, Today</span> -->
             </div>
             <div class="message other-message float-right">
-              Input
+              {{user_input[i]}}
             </div>
           </li>
           <li class="clearfix">
@@ -41,9 +43,10 @@
               <span class="message-data-name" >Sindi</span> <i class="fa fa-circle online"></i>
             </div>
             <div class="message my-message ">
-              Output
+              {{user_input[i+1]}}
             </div>
           </li>
+          {% endfor %}
             <li id="last"></li>
         </ul>
       </div>
@@ -58,25 +61,32 @@
           <a class="button" href="/clear"><i class="fa fa-trash fa-lg"></i></a>
       </div>
     </div>
+
 </div>
-<div id="weather_wrapper">
+<!--
+<div class="weather_wrapper">
+  <div class="weather">
     <div class="weatherCard">
         <div class="currentTemp">
-            <span class="temp">6&deg;C</span>
-            <span class="location">China</span>
+            <span class="temp">{{temp}}&deg;C</span>
+            <span class="location">{{location}}</span>
         </div>
         <div class="currentWeather">
             <span class="conditions"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png"></span>
             <div class="info">
-                <span class="rain">6%</span>
-                <span class="wind">6 MPH</span>
+                <span class="rain">{{humidity}}%</span>
+                <span class="wind">{{wind}} MPH</span>
             </div>
         </div>
     </div>
+  </div>
 </div>
+-->
 <!-- Chat -->
-
-<link rel="stylesheet" href="js/script.js" type= "text/css">
+<script type="text/javascript">
+  var element = document.getElementById("chat");
+element.scrollTop = element.scrollHeight;
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js'></script>
