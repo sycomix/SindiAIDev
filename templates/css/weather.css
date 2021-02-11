@@ -1,9 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/weather-icons/1.2/css/weather-icons.min.css);
-
-#weather_wrapper{
-	width: 400px;
-	margin: 0px auto;
+.weather_wrapper{
+	width:100%;
+	height:100px;
+	position:relative;
+}
+.weather{
+	width:100px;
+	height:10px;
+	position:absolute;
+	bottom:-700%;
 }
 .weatherCard{
 	width: 400px;
@@ -22,7 +28,7 @@
 .currentWeather{
 	width: 180px;
 	height: 200px;
-	background: rgb(237, 237, 237);
+	background: rgb(65 65 65);
 	margin: 0;
 	position: absolute;
 	top: 0;
@@ -57,7 +63,7 @@
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	background: rgb(42, 178, 234);
+	background: rgb(8 180 182);
 	font-weight: 700;
 	color: rgb(255, 255, 255);
 	text-align: center;
