@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>Dashboard - SindiAI</title>
-	<link rel="shortcut icon" href="{{ url_for('static',filename='img/1.png') }}" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="{{ url_for('static',filename='img/1.png') }}" type="image/x-icon">
 	<link rel="stylesheet" href="{{ url_for('static',filename='css/weather.css') }}" type= "text/css">
 
 	<!-- Chat -->
@@ -19,13 +20,14 @@
         <div class="chat-header clearfix">
             <img src="{{ url_for('static',filename='img/1.png') }}" alt="avatar" width="50px" height="50px" />
             <div class="chat-about">
-              <div class="chat-with">Chat with Cindy</div>
+              <div class="chat-with">Chat with Sindi</div>
               <div class="chat-num-messages">already {{ user_input|length }} messages</div>
             </div>
         </div>
-      <div class="chat-history">
+      <div class="chat-history" id="chat">
         <ul>
           {% for i in range(0, user_input|length, 2) %}
+          <br>
           <li>
             <div class="message-data align-right">
               <span class="message-data-name"><i class="fa fa-circle me "></i>You</span>
@@ -59,8 +61,11 @@
           <a class="button" href="/clear"><i class="fa fa-trash fa-lg"></i></a>
       </div>
     </div>
+
 </div>
-<div id="weather_wrapper">
+<!--
+<div class="weather_wrapper">
+  <div class="weather">
     <div class="weatherCard">
         <div class="currentTemp">
             <span class="temp">{{temp}}&deg;C</span>
@@ -74,10 +79,14 @@
             </div>
         </div>
     </div>
+  </div>
 </div>
+-->
 <!-- Chat -->
-
-<link rel="stylesheet" href="{{ url_for('static',filename='js/chat.js') }}" type= "text/css">
+<script type="text/javascript">
+  var element = document.getElementById("chat");
+element.scrollTop = element.scrollHeight;
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js'></script>
