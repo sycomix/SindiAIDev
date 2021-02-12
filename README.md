@@ -5,7 +5,7 @@ Sindi is a natural language AI assistant that doesn’t only play music for you 
 It doesn't matter how you ask the question Sindi will always understand what you mean unless the feature is not available.
 Here is a list of the features Sindi has right now:
   - Speak feature: *numbers and text*
-  - Chat features: *Hello, Who are you?, Surname, Name, Thanks, full birthday, age (Sindi will know if you lie about yoyr age)*
+  - Chat features: *Hello, Who are you?, Surname, Name, Thanks, full birthday, age (Sindi will know if you lie about your age)*
   - Weather features: *What's the weather like?*
   - Music features: *What genres of music do I listen?, Play music, Play rock music, Play custom music*
   - Music controls: *Play, pause/continue, volume, mute/unmute, replay*
@@ -30,6 +30,7 @@ We recommend creating a virtual environment to manage your modules more easily, 
 ```sh
 conda create -n sindiai python==3.6.6
 ```
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_3.png?raw=true)
 Now activate the environment:
 ```sh
 conda activate sindiai
@@ -38,16 +39,49 @@ Now you can install all the required modules with this command:
 ```sh
 pip install -r requirements.txt
 ```
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_4.png?raw=true)
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_5.png?raw=true)
+
 After installing all the modules, make sure to have a MySQL local server running. In this case we are running Wamp(Windows, Apache, MySQL, and PHP).
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_36.png?raw=true)
 Then you can run to create the database:
 ```sh
 python create_db.py
 ```
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_6.png?raw=true)
 After the database has been created you can start using SindiAI by running:
 ```sh
 python server.py
 ```
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_8.png?raw=true)
+
+If you are asked to allow acces to Firewall please do so.
+
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_7.png?raw=true)
 And head over to 127.0.0.1:8000 on any web browser, or local ip of pc to use on other devices on your local network. *Example: 192.168.1.2:8000*
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_9.png?raw=true)
+
+Make sure you are registred on the [HomeBuddy](https://homebuddyweb.000webhostapp.com) website and you got your FaceHash together with your json data file. And it should be located on */sindiai/users/data/* 
+
+Then you can, 
+
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_10.png?raw=true)
+### You are ready to chat with Sindi!
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_11.png?raw=true)
+
+### Wit integration
+The moment we send input to Sindi a chain of functions are activated. 
+First we send the input to Wit where it is classified into intents, entities and traits.
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_14.png?raw=true)
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_13.png?raw=true)
+| What are intents? | What are entities? | What are traits? |
+| ------ | ----- | ----- |
+| We have created these intents to classify the response | Entities detect certain objects in the user input (genre, age, date) | Traits help us detect a trait about in sentence (sntiment ex. happy) |
+| ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_38.png?raw=true) | ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_39.png?raw=true) | ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_40.png?raw=true) |
+
+We have manually trained the app with nearly 300 sentences, labelling each type of data. 
+![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_41.png?raw=true)
+
 
 ### Audio files
 
