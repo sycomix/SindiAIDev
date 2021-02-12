@@ -31,6 +31,7 @@ We recommend creating a virtual environment to manage your modules more easily, 
 conda create -n sindiai python==3.6.6
 ```
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_3.png?raw=true)
+
 Now activate the environment:
 ```sh
 conda activate sindiai
@@ -43,22 +44,29 @@ pip install -r requirements.txt
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_5.png?raw=true)
 
 After installing all the modules, make sure to have a MySQL local server running. In this case we are running Wamp(Windows, Apache, MySQL, and PHP).
+
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_36.png?raw=true)
+
 Then you can run to create the database:
 ```sh
 python create_db.py
 ```
+
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_6.png?raw=true)
+
 After the database has been created you can start using SindiAI by running:
 ```sh
 python server.py
 ```
+
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_8.png?raw=true)
 
 If you are asked to allow acces to Firewall please do so.
 
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_7.png?raw=true)
+
 And head over to 127.0.0.1:8000 on any web browser, or local ip of pc to use on other devices on your local network. *Example: 192.168.1.2:8000*
+
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_9.png?raw=true)
 
 Make sure you are registred on the [HomeBuddy](https://homebuddyweb.000webhostapp.com) website and you got your FaceHash together with your json data file. And it should be located on */sindiai/users/data/* 
@@ -66,6 +74,7 @@ Make sure you are registred on the [HomeBuddy](https://homebuddyweb.000webhostap
 Then you can, 
 
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_10.png?raw=true)
+
 ### You are ready to chat with Sindi!
 ![Error](https://github.com/0Shark/SindiAIDev/blob/main/screenshots/Screenshot_11.png?raw=true)
 
