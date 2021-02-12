@@ -1,11 +1,11 @@
-from os import path, listdir  # Path and directory listing
+from os import path, listdir, _exit  # Path, directory listing and exit
 from wit import Wit           # API request
 import json                   # Data extraction
 from datetime import date     # Date
 from random import randint    # Random index
 from pygame import mixer      # Audio output
 from pyowm import OWM         # Weather
-
+from time import sleep
 
 
 # Initiate mixer - used in audio functions
@@ -17,7 +17,7 @@ access_token = "IYIKWAHYLSFGUGI3CM3SRVF4MBM2GQ7C"
 client = Wit(access_token)
 
 # OpenWeather
-weatherAPI_token = "44edc82d5c54a7d0cd68aec1904e810e"
+weatherAPI_token = "a1bdf2e4609febbedaf0fcc823e3d527"
 mgr = OWM(weatherAPI_token)
 
 
@@ -267,6 +267,14 @@ def approve_response():
     return responses[index]
 
 
+# Tell a joke
+def tell_joke():
+    jokes = ['j1','j2','j3','j4','j5','j6','j7','j8']
+    index = randint(0, len(jokes) - 1)
+    speak(jokes[index])
+    return ":D"
+
+
 # Giving response
 def give_response(wit_output, u_data):
     # Getting user data from data.json
@@ -395,6 +403,8 @@ def give_response(wit_output, u_data):
             elif trait_sentiment == "neutral":
                 msg = ":)"
                 return msg
+        elif intent_type == 'tell_joke':
+            return convertTuple(tell_joke())
         elif intent_type == 'music_related':
             if trait_question == 'true':
                 msg = "You like listening to ", get_music_genres(music_genres), " music genres."    # Need to generate audio file
@@ -436,6 +446,10 @@ def give_response(wit_output, u_data):
         elif intent_type == 'unmute':
             unmute_volume()
             return approve_response()
+        elif intent_type == 'exit_app':
+            speak("I'm going dark to be woken greater then ever. Goodbye!")
+            sleep(7)
+            _exit(0)
     else:
         return None
 
