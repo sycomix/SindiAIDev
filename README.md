@@ -95,6 +95,7 @@ We have manually trained the app with nearly 300 sentences, labelling each type 
 ### Audio files
 
 Sindi has a decent amount of speech audio generated with play.ht and music genres that can be modified to your preferences.
+Make sure you add your own music files on the *sindiai/music/* directory. 
 
 | Type | Items |
 | ------ | ------ |
