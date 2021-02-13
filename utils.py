@@ -5,7 +5,7 @@ from datetime import date     # Date
 from random import randint    # Random index
 from pygame import mixer      # Audio output
 from pyowm import OWM         # Weather
-from time import sleep
+from time import sleep        # Exit timer
 
 
 # Initiate mixer - used in audio functions
@@ -16,10 +16,20 @@ enableWitOutput = True  # True if you want to see Wit API response sent by our b
 access_token = "IYIKWAHYLSFGUGI3CM3SRVF4MBM2GQ7C"
 client = Wit(access_token)
 
-# OpenWeather
-weatherAPI_token = "a1bdf2e4609febbedaf0fcc823e3d527"
-mgr = OWM(weatherAPI_token)
+# OpenWeather  (2 keys in case limit is exceeded)
+weatherAPI_token1 = "a1bdf2e4609febbedaf0fcc823e3d527"
+weatherAPI_token2 = "44edc82d5c54a7d0cd68aec1904e810e"
 
+
+# Music variables with deafult values
+m_Name = "playing"
+m_Cover = "static/covers/custom.png"
+m_Genre = "No music"
+
+try:
+    mgr = OWM(weatherAPI_token1)
+except Exception:
+    mgr = OWM(weatherAPI_token2)
 
 # Transcripts
 transcript_path = "voice/transcript.json"
@@ -27,6 +37,7 @@ with open(transcript_path) as json_file:
     transcript = json.load(json_file)
 
 
+# Play audio responding to transcript (text)
 def speak(text):
     audio_playing = mixer.music.get_busy()      # Checking if audio channel is playing audio
     while audio_playing:
@@ -38,23 +49,10 @@ def speak(text):
     mixer.music.load(voice_path)
     mixer.music.play()
 
-
+# Convert tuples when response is a mix of strings and intigers ex. "Hello" + name + "!"
 def convertTuple(tup):
     res = ''.join(tup)
     return res
-
-
-# Look for corresponding FaceHash image if found return path of file
-def face_exists(facehash):
-    acceptedExt = [".jpg", ".jpeg", ".png"]
-    for ext in acceptedExt:
-        file = "users/faces/" + facehash + ext
-        if path.isfile(file):
-            # print("Found: ", file)
-            return file
-    print("Sorry your FaceHash does not appear to be saved.\n")
-    speak("Sorry your FaceHash does not appear to be saved.")
-    return False
 
 
 # Get the highest confidence intent
@@ -110,7 +108,14 @@ def getBirthday(bday):
 # Speak given number
 def speakNumber(num):
     num = int(num)
-    if num<=19: # Simple number
+    if num<0:
+        speak("-")
+        num = abs(num)
+        num = str(num)
+        speak(num)
+    elif num==0:
+        speak(num)
+    elif num<=19 and num>=0: # Simple number
         speak(str(num))
     elif num<100 and num>=20: # Mixed number
         speak(str(int(num/10)*10))
@@ -172,29 +177,46 @@ def get_music_genres(genres):
 
 # Recommend random music genre from given genres in data.json
 def recommend_random_music(genres):
+    global m_Name
+    global m_Cover
+    global m_Genre
     last = len(genres)
     genres.pop(last - 1)
     last = len(genres)
     index = randint(0, last - 1)
     genre = genres[index]
     response = genre
+    file = get_music_file(genre)
+    filename = file.split('.') 
     speak("Playing")
     speak(genre)
     speak("music for you")
-    m_path = 'music/' + genre + '/' + get_music_file(genre)
+    m_path = 'music/' + genre + '/' + file
     play_music(m_path)
+    m_Genre = genre
+    m_Name = filename[0] 
+    m_Cover = "static/covers/" + genre + ".png"
+    response = genre + " music"
     return response
 
 
 # Recommend music from given genre on input
 def recommend_music(entity_value):
+    global m_Name
+    global m_Cover
+    global m_Genre
     genre = entity_value
     speak("Playing")
     speak(genre)
     speak("music for you")
-    m_path = 'music/' + genre + '/' + get_music_file(genre)
+    file = get_music_file(genre)
+    m_path = 'music/' + genre + '/' + file
+    filename = file.split('.') 
     if path.exists(m_path):
         play_music(m_path)
+        m_Genre = genre
+        m_Name = filename[0] 
+        m_Cover = "static/covers/" + genre + ".png"
         response = genre + " music"
     else:
         response = genre + " music is not possible"
@@ -204,7 +226,6 @@ def recommend_music(entity_value):
 # Get random music file on genre folder
 def get_music_file(genre):
     f_path = 'music/' + genre + '/'
-
     if listdir(f_path):
         playlist = listdir(f_path)
         index = randint(0, len(playlist) - 1)
@@ -214,13 +235,12 @@ def get_music_file(genre):
         return False
 
 
-# Play music
+# Play music with path m_path
 def play_music(m_path):
     audio_playing = mixer.music.get_busy()  # Checking if audio channel is playing audio
     while audio_playing:
         audio_playing = mixer.music.get_busy()  # Waiting until audio has stopped
         continue
-
     mixer.music.unload()
     mixer.music.load(m_path)
     mixer.music.play()
@@ -266,8 +286,22 @@ def approve_response():
     index = randint(0, len(responses) - 1)
     return responses[index]
 
+# Check if music is playing and get values if it's called from server.py
+def music_playing():
+    global m_Name
+    global m_Cover
+    global m_Genre
+    audio_playing = mixer.music.get_busy()
+    arr = ["static/covers/custom.png", "No music", "Playing"]      # Checking if audio channel is playing audio
+    if audio_playing:
+        arr = [m_Cover, m_Genre, m_Name]
+    else:
+        arr = ["static/covers/custom.png", "No music", "Playing"] 
+    return arr
 
-# Tell a joke
+
+
+# Tell a random joke corresponding to joke id
 def tell_joke():
     jokes = ['j1','j2','j3','j4','j5','j6','j7','j8']
     index = randint(0, len(jokes) - 1)
@@ -275,7 +309,7 @@ def tell_joke():
     return ":D"
 
 
-# Giving response
+# Giving a response
 def give_response(wit_output, u_data):
     # Getting user data from data.json
     data = u_data[0]
@@ -338,8 +372,8 @@ def give_response(wit_output, u_data):
             speak("Your surname is written right here.")
             return convertTuple(msg)
         elif intent_type == 'sindi_related':
-            speak("I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music, videos and jokes.")
-            return "I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music, videos and jokes."
+            speak("I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music, videos and jokes.") # Videos coming soon
+            return "I'm your personal assistant. I'm going to help you out when you need me and cheer you up with music and jokes."
         elif intent_type == 'thanks_related' or trait_thanks == 'true':
             speak("No problem!")
             return "No problem! :)"
@@ -454,14 +488,14 @@ def give_response(wit_output, u_data):
         return None
 
 
-# Gets input from server.py (input from form)
+# Gets input from server.py from Form
 def giveInput(user_input, facehash):
     data_path = "users/data/" + facehash + ".json"
     with open(data_path) as json_file:
         data = json.load(json_file)
 
     if user_input == '':
-        user_input = "NULL"  # Error from wit for empty values
+        user_input = "NULL"  # Error from wit for empty values so we set deafult value NULL
     wit_output = client.message(user_input)
     response = give_response(wit_output, data)
     if response is not None:
