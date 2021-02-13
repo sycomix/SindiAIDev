@@ -10,9 +10,7 @@
 	<link rel="stylesheet" href="{{ url_for('static',filename='css/chat.css') }}" type= "text/css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
-	<!--
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <div class="box">
@@ -52,7 +50,7 @@
       </div>
 
       <div class="chat-message clearfix">
-          <form action="/process" method="POST">
+          <form action="/process" method="POST" name="user_input_form">
               <input autocomplete="off" class="chatbox" type="text" name="user_input" id="message-to-send" placeholder ="Type your message">
               <button type="submit" >Send</button>
           </form>
@@ -63,8 +61,13 @@
     </div>
 
 </div>
-<!--
-<div class="weather_wrapper">
+
+<div style="text-align: center; border-bottom: 3px solid #0ab4b4;
+  border: 3px solid #292929;">
+  <img width="100px" src="{{music[0]}}">
+  <div class='title'><b>{{music[1]}}</b></div>
+  <div class='artist'>{{music[2]}}</div>
+  <div class="weather_wrapper">
   <div class="weather">
     <div class="weatherCard">
         <div class="currentTemp">
@@ -81,19 +84,17 @@
     </div>
   </div>
 </div>
--->
+</div>
 <!-- Chat -->
 <script type="text/javascript">
+  // Scroll to new message
   var element = document.getElementById("chat");
-element.scrollTop = element.scrollHeight;
+  element.scrollTop = element.scrollHeight;
+  // Set focus to input box without clicking it
+  document.forms['user_input_form'].elements['user_input'].focus();
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js'></script>
-<!--
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
--->
 </body>
 </html>
