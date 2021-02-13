@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import pymysql
-import datetime
 import utils
 from pyowm import OWM
 
@@ -14,11 +13,6 @@ q = 0
 facehash = ""
 
 app = Flask(__name__)
-
-
-def date_time():  # getting date and time
-    currentDT = datetime.datetime.now()
-    return str(currentDT)[0:19]
 
 
 def insert_sql(user_input):  # inserting user inputs, bot outputs and time into database
@@ -43,7 +37,8 @@ def user_list():  # extracting user inputs from user_bot_chat database
     a.execute(sql)
     w_user = list(a.fetchall())
     for i in w_user:
-        user.append('You: ' + i[0])
+        # user.append('You: ' + i[0])
+        user.append(i[0])
     return user
 
 
@@ -53,14 +48,15 @@ def bot_list():  # extracting bot responses from user_bot_chat database
     a.execute(sql)
     w_bot = list(a.fetchall())
     for i in w_bot:
-        bot.append('Sindi: ' + i[0])
+        # bot.append('Sindi' + i[0])
+        bot.append(i[0])
     return bot
 
 
 @app.route('/home')  # links to the first page - index.html
 def index():
     weather = getWeather()
-    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4])
+    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4], music=utils.music_playing())
 
 
 @app.route('/')  # links to the first page - index.html
@@ -73,7 +69,7 @@ def setup():
     weather = getWeather()
     global facehash
     facehash= request.form["facehash"]
-    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4])
+    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4], music=utils.music_playing())
 
 
 @app.route('/clear')
@@ -82,7 +78,7 @@ def clearChat():
     # Clear all table rows
     sql = "TRUNCATE TABLE user_bot_chat;"
     a.execute(sql)
-    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4])
+    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4], music=utils.music_playing())
 
 
 def r():  # takes user inputs and bot outputs and insert into a array to later send to html file
@@ -109,7 +105,6 @@ def r():  # takes user inputs and bot outputs and insert into a array to later s
 def getWeather():
     observation = mgr.weather_at_place('Shkodër')
     w = observation.get_weather()
-    state = w.get_detailed_status()
     wind_data = w.get_wind()
     humidity = w.get_humidity()
     temp_data = w.get_temperature('celsius')
@@ -122,7 +117,7 @@ def getWeather():
 def process():
     weather = getWeather()
     # called when user input is given and submit button is pressed
-    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4])
+    return render_template("index.html", user_input=r(), temp=weather[0], location=weather[1], icon=weather[2], humidity=weather[3], wind=weather[4], music=utils.music_playing())
 
 
 if __name__ == '__main__':
