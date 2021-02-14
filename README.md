@@ -43,7 +43,7 @@ We created HomeBoddy to be easily accesible by the users and serve as registrati
 ### Installation
 SindiAI is built in [Python 3.6.6](https://www.python.org/downloads/release/python-366/) so make sure you have it installed together with *pip*
  
-Next you need to clone the repository or just [download](https://github.com/0Shark/SindiAIDev/archive/main.zip) it 
+Next you need to clone the repository or just [download](https://homebuddy.ml/sindiai.rar) it from our website
 
 ```sh
 git clone https://github.com/0Shark/SindiAIDev
