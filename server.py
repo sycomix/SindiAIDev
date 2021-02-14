@@ -103,13 +103,13 @@ def r():  # takes user inputs and bot outputs and insert into a array to later s
 
 
 def getWeather():
-    observation = mgr.weather_at_place('Shkodër')
+    observation = mgr.weather_at_place('Tirana')
     w = observation.get_weather()
     wind_data = w.get_wind()
     humidity = w.get_humidity()
     temp_data = w.get_temperature('celsius')
     icon = w.get_weather_icon_name()
-    weatherData = [str(int(temp_data['temp'])), 'Shkodër', str(icon), str(int(humidity)), str(int(wind_data['speed']))]
+    weatherData = [str(int(temp_data['temp'])), 'Tirana', str(icon), str(int(humidity)), str(int(wind_data['speed']))]
     return weatherData
 
 
