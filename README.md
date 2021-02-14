@@ -12,6 +12,23 @@ Here is a list of the features Sindi has right now:
   - Exit app
   - Sindi will know if you are angry, neutral or happy based on your input
 
+### Technologies used
+##### On web
+<p float="left">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/htmlcss.png" width="100">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/php.png" width="100">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/sql.png" width="100">
+</p>
+
+##### On SindiAI
+
+<p float="left">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/python.png" width="100">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/flask.png" width="100">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/wit.png" width="100">
+<img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/sql.png" width="100">
+</p>
+
 ### Web | HomeBuddy website
 We created HomeBoddy to be easily accesible by the users and serve as registration domain for all users. The website also includes log in using your face with the face_recognition module but it won't work on the web due to hosting limitations, so you can still try it out by downloading the website here:
 [Google Drive link](https://drive.google.com/file/d/1IzaHphtCNDt0kwedOl_VFuy3xdYd7Fua/view?usp=sharing)
