@@ -1,5 +1,5 @@
 # SindiAI
-#### Project participating in ASEF 2021
+#### Project participating in ASEF 2021 | Worked by: Juled Zaganjori and Elmer Dema
 
 Sindi is a natural language AI assistant that doesn’t only play music for you but it can also chat with you, tell you jokes and more. 
 It doesn't matter how you ask the question Sindi will always understand what you mean unless the feature is not available.
@@ -19,6 +19,9 @@ Here is a list of the features Sindi has right now:
 <img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/php.png" width="100">
 <img src="https://raw.githubusercontent.com/0Shark/SindiAIDev/main/screenshots/sql.png" width="100">
 </p>
+
+### Our development board, where we organized all of our tasks
+[Trello Board](https://trello.com/b/AIOfJUvG/asef-2021-development-board)
 
 ##### On SindiAI
 
