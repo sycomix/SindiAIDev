@@ -188,15 +188,20 @@ def recommend_random_music(genres):
     response = genre
     file = get_music_file(genre)
     filename = file.split('.') 
-    speak("Playing")
-    speak(genre)
-    speak("music for you")
     m_path = 'music/' + genre + '/' + file
-    play_music(m_path)
-    m_Genre = genre
-    m_Name = filename[0] 
-    m_Cover = "static/covers/" + genre + ".png"
-    response = genre + " music"
+    ignore = 'music/' + genre + '/DELETEME.txt'
+    if path.exists(m_path) and m_path != ignore:
+        speak("Playing")
+        speak(genre)
+        speak("music for you")
+        play_music(m_path)
+        m_Genre = genre
+        m_Name = filename[0] 
+        m_Cover = "static/covers/" + genre + ".png"
+        response = genre + " music"
+    else:
+        speak("Sorry this music directory is empty!")
+        response = genre + " music is not possible"
     return response
 
 
@@ -206,19 +211,21 @@ def recommend_music(entity_value):
     global m_Cover
     global m_Genre
     genre = entity_value
-    speak("Playing")
-    speak(genre)
-    speak("music for you")
     file = get_music_file(genre)
     m_path = 'music/' + genre + '/' + file
+    ignore = 'music/' + genre + '/DELETEME.txt'
     filename = file.split('.') 
-    if path.exists(m_path):
+    if path.exists(m_path) and m_path != ignore:
+        speak("Playing")
+        speak(genre)
+        speak("music for you")
         play_music(m_path)
         m_Genre = genre
         m_Name = filename[0] 
         m_Cover = "static/covers/" + genre + ".png"
         response = genre + " music"
     else:
+        speak("Sorry this music directory is empty!")
         response = genre + " music is not possible"
     return response
 
