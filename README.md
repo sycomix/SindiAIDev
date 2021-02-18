@@ -1,5 +1,5 @@
 # SindiAI
-#### Project participating in ASEF 2021 | Worked by: Juled Zaganjori and Elmer Dema
+#### Project participating in ASEF 2021 | Developed by: Juled Zaganjori and Elmer Dema
 
 Sindi is a natural language AI assistant that doesn’t only play music for you but it can also chat with you, tell you jokes and more. 
 It doesn't matter how you ask the question Sindi will always understand what you mean unless the feature is not available.
@@ -46,7 +46,7 @@ We created HomeBoddy to be easily accesible by the users and serve as registrati
 ### Installation
 SindiAI is built in [Python 3.6.6](https://www.python.org/downloads/release/python-366/) so make sure you have it installed together with *pip*
  
-Next you need to clone the repository or just [download](https://homebuddy.ml/sindiai.rar) it from our website
+Next you need to clone the repository or just [download](https://github.com/0Shark/SindiAIDev/archive/main.zip) it.
 
 ```sh
 git clone https://github.com/0Shark/SindiAIDev
@@ -67,6 +67,9 @@ Now activate the environment:
 ```sh
 conda activate sindiai
 ```
+
+NOTE: You can also install Sindi directly on your main Python installation but it may lead to small errors.
+
 Now you can install all the required modules with this command:
 ```sh
 pip install -r requirements.txt
