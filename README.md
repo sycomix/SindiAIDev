@@ -38,7 +38,8 @@ Here is a list of the features Sindi has right now:
 
 We created HomeBuddy to be easily accesible by the users and serve as registration domain for all users. The website also includes log in using your face with the face_recognition module but it won't work on the web due to hosting limitations, so you can still try it out by downloading the website here:
 [Google Drive link](https://drive.google.com/file/d/1IzaHphtCNDt0kwedOl_VFuy3xdYd7Fua/view?usp=sharing)
-[Website](homebuddy.ml)
+
+### [Website](https://homebuddy.ml)
 
 - We hosted the website on 000webhost and aquired a free domain from Freenom
 - The website is protected by CloudFlare security and posses a SSL certificate
