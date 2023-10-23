@@ -51,16 +51,13 @@ def speak(text):
 
 # Convert tuples when response is a mix of strings and intigers ex. "Hello" + name + "!"
 def convertTuple(tup):
-    res = ''.join(tup)
-    return res
+    return ''.join(tup)
 
 
 # Get the highest confidence intent
 def first_intent_name(intents):
     val = intents[0]['name']
-    if not val:
-        return None
-    return val
+    return None if not val else val
 
 
 # Get a certain entity
@@ -68,9 +65,7 @@ def first_entity_value(entities, entity):
     if entity not in entities:
         return None
     val = entities[entity][0]['value']
-    if not val:
-        return None
-    return val
+    return None if not val else val
 
 
 # Get a certain trait
@@ -78,9 +73,7 @@ def first_trait_value(traits, trait):
     if trait not in traits:
         return None
     val = traits[trait][0]['value']
-    if not val:
-        return None
-    return val
+    return None if not val else val
 
 
 # Turn nr to month using given index
@@ -97,7 +90,7 @@ def getBirthday(bday):
     M = date[1]
     M = int(M)
     D = date[2]
-    msg = D + " of " + getMonth(M) + " " + Y
+    msg = f"{D} of {getMonth(M)} {Y}"
     speak(D)
     speak(getMonth(M))
     speakNumber(Y)
@@ -115,7 +108,7 @@ def speakNumber(num):
         speak(num)
     elif num==0:
         speak(num)
-    elif num<=19 and num>=0: # Simple number
+    elif num <= 19: # Simple number
         speak(str(num))
     elif num<100 and num>=20: # Mixed number
         speak(str(int(num/10)*10))
@@ -127,22 +120,15 @@ def speakNumber(num):
         if x==20:
             speak("2000")
         else:
-            speak(str(int(x/10)*10))
+            speak(str(x // 10 * 10))
             speak(str(x%10))
         num = num % 100
         y = str(int(num/10)*10)
-        if y != "0":
-            if temp<=19:
-                speak(str(temp))
-            else:
-                speak(str(int(temp/10)*10))
-                speak(str(temp%10))
+        if temp<=19:
+            speak(str(temp))
         else:
-            if temp<=19:
-                speak(str(temp))
-            else:
-                speak(str(int(temp/10)*10))
-                speak(str(temp%10))
+            speak(str(int(temp/10)*10))
+            speak(str(temp%10))
 
 # Calculate age from birthday given on data.json
 def calAge(bday):
@@ -167,12 +153,9 @@ def calAge(bday):
 
 # Get genres from data.json
 def get_music_genres(genres):
-    msg = ""
     last = len(genres)
     genres.pop(last - 1)
-    for x in genres:
-        msg += x + ","
-    return msg
+    return "".join(f"{x}," for x in genres)
 
 
 # Recommend random music genre from given genres in data.json
@@ -187,21 +170,21 @@ def recommend_random_music(genres):
     genre = genres[index]
     response = genre
     file = get_music_file(genre)
-    filename = file.split('.') 
-    m_path = 'music/' + genre + '/' + file
-    ignore = 'music/' + genre + '/DELETEME.txt'
+    filename = file.split('.')
+    m_path = f'music/{genre}/{file}'
+    ignore = f'music/{genre}/DELETEME.txt'
     if path.exists(m_path) and m_path != ignore:
         speak("Playing")
         speak(genre)
         speak("music for you")
         play_music(m_path)
         m_Genre = genre
-        m_Name = filename[0] 
-        m_Cover = "static/covers/" + genre + ".png"
-        response = genre + " music"
+        m_Name = filename[0]
+        m_Cover = f"static/covers/{genre}.png"
+        response = f"{genre} music"
     else:
         speak("Sorry this music directory is empty!")
-        response = genre + " music is not possible"
+        response = f"{genre} music is not possible"
     return response
 
 
@@ -212,32 +195,30 @@ def recommend_music(entity_value):
     global m_Genre
     genre = entity_value
     file = get_music_file(genre)
-    m_path = 'music/' + genre + '/' + file
-    ignore = 'music/' + genre + '/DELETEME.txt'
-    filename = file.split('.') 
+    m_path = f'music/{genre}/{file}'
+    ignore = f'music/{genre}/DELETEME.txt'
+    filename = file.split('.')
     if path.exists(m_path) and m_path != ignore:
         speak("Playing")
         speak(genre)
         speak("music for you")
         play_music(m_path)
         m_Genre = genre
-        m_Name = filename[0] 
-        m_Cover = "static/covers/" + genre + ".png"
-        response = genre + " music"
+        m_Name = filename[0]
+        m_Cover = f"static/covers/{genre}.png"
+        return f"{genre} music"
     else:
         speak("Sorry this music directory is empty!")
-        response = genre + " music is not possible"
-    return response
+        return f"{genre} music is not possible"
 
 
 # Get random music file on genre folder
 def get_music_file(genre):
-    f_path = 'music/' + genre + '/'
+    f_path = f'music/{genre}/'
     if listdir(f_path):
         playlist = listdir(f_path)
         index = randint(0, len(playlist) - 1)
-        music_path = playlist[index]
-        return music_path
+        return playlist[index]
     else:
         return False
 
@@ -300,11 +281,11 @@ def music_playing():
     global m_Genre
     audio_playing = mixer.music.get_busy()
     arr = ["static/covers/custom.png", "No music", "Playing"]      # Checking if audio channel is playing audio
-    if audio_playing:
-        arr = [m_Cover, m_Genre, m_Name]
-    else:
-        arr = ["static/covers/custom.png", "No music", "Playing"] 
-    return arr
+    return (
+        [m_Cover, m_Genre, m_Name]
+        if audio_playing
+        else ["static/covers/custom.png", "No music", "Playing"]
+    )
 
 
 

@@ -22,35 +22,26 @@ def insert_sql(user_input):  # inserting user inputs, bot outputs and time into 
     resp = utils.giveInput(user_input, facehash)
     resp = str(resp)
     try:
-        sql = 'INSERT INTO user_bot_chat (id, User_input, Bot_output) VALUES("' + str(
-            s) + '","' + user_input + '","' + resp + '");'
+        sql = f'INSERT INTO user_bot_chat (id, User_input, Bot_output) VALUES("{str(s)}","{user_input}","{resp}");'
         a.execute(sql)
         conn.commit()
     except Exception as e:
         print("Line 27")
-        print("Exeception occured:{}".format(e))
+        print(f"Exeception occured:{e}")
 
 
 def user_list():  # extracting user inputs from user_bot_chat database
-    user = []
     sql = 'select User_input from user_bot_chat;'
     a.execute(sql)
     w_user = list(a.fetchall())
-    for i in w_user:
-        # user.append('You: ' + i[0])
-        user.append(i[0])
-    return user
+    return [i[0] for i in w_user]
 
 
 def bot_list():  # extracting bot responses from user_bot_chat database
-    bot = []
     sql = 'select Bot_output from user_bot_chat;'
     a.execute(sql)
     w_bot = list(a.fetchall())
-    for i in w_bot:
-        # bot.append('Sindi' + i[0])
-        bot.append(i[0])
-    return bot
+    return [i[0] for i in w_bot]
 
 
 @app.route('/home')  # links to the first page - index.html
@@ -89,16 +80,14 @@ def r():  # takes user inputs and bot outputs and insert into a array to later s
         user = user_list()
         bot = bot_list()
         for j in range(0, len(user)):
-            r.append(user[j])
-            r.append(bot[j])
+            r.extend((user[j], bot[j]))
         return r
     except:
         r = []
         user = user_list()
         bot = bot_list()
         for j in range(0, len(user)):
-            r.append(user[j])
-            r.append(bot[j])
+            r.extend((user[j], bot[j]))
         return r
 
 
@@ -109,8 +98,13 @@ def getWeather():
     humidity = w.get_humidity()
     temp_data = w.get_temperature('celsius')
     icon = w.get_weather_icon_name()
-    weatherData = [str(int(temp_data['temp'])), 'Tirana', str(icon), str(int(humidity)), str(int(wind_data['speed']))]
-    return weatherData
+    return [
+        str(int(temp_data['temp'])),
+        'Tirana',
+        str(icon),
+        str(int(humidity)),
+        str(int(wind_data['speed'])),
+    ]
 
 
 @app.route('/process', methods=['POST'])
@@ -126,7 +120,7 @@ if __name__ == '__main__':
         a = conn.cursor()
     except Exception as e:
         print("QUERY ERROR: Connection")
-        print("Exeception occured:{}".format(e))
+        print(f"Exeception occured:{e}")
 
     app.run(host='0.0.0.0', port=int('8000'), debug=True)  # 0.0.0.0.,80
     # conn.close()

@@ -15,7 +15,7 @@ try:
     # Create a cursor object
     cursorInstance = connectionInstance.cursor()
     # SQL Statement to create database
-    sqlStatement = "CREATE DATABASE " + newDatabaseName
+    sqlStatement = f"CREATE DATABASE {newDatabaseName}"
     # Execute the create database SQL statement through the cursor instance
     cursorInstance.execute(sqlStatement)
     # Select DB
@@ -28,7 +28,7 @@ try:
 
 
 except Exception as e:
-    print("Exception occurred:{}".format(e))
+    print(f"Exception occurred:{e}")
 
 finally:
     print("Created DB")

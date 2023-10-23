@@ -17,7 +17,7 @@ while not known_face:
 
 print("Sindi: Ok show your face in front of your camera so I can identify if this is really you!")
 # Get json data of user
-data_path = "users/data/" + facehash + ".json"
+data_path = f"users/data/{facehash}.json"
 with open(data_path) as json_file:
     data = json.load(json_file)
 
@@ -27,7 +27,7 @@ known_face = load_image_file(known_face)
 # Get display name from users/data
 name = data[0]['Name']
 surname = data[0]['Surname']
-display_name = name + " " + surname
+display_name = f"{name} {surname}"
 
 # Start webcam detection
 if (webcam_detection(known_face, display_name)):
@@ -35,7 +35,7 @@ if (webcam_detection(known_face, display_name)):
     client = Wit(access_token)
     #print("SERVER: CONNECTED")
 
-    print("Sindi: Hello", name + "!")
+    print("Sindi: Hello", f"{name}!")
 
     speech_active = False
     '''
